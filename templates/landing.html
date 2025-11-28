@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ChatterBot — Welcome</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        font-family: "Poppins", sans-serif;
+        background: radial-gradient(circle at 20% 30%, #3a1a61 0%, #130526 60%, #0a0318 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        color: white;
+        position: relative;
+    }
+
+    /* Purple glow (moved to the right side so it does NOT affect hero image clarity) */
+    .glow-bg {
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(138, 43, 226, 0.4), rgba(0,0,0,0));
+        filter: blur(110px);
+        top: 55%;
+        left: 75%;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    /* Title */
+    .title-box {
+        position: absolute;
+        top: 12%;
+        left: 10%;
+        z-index: 5;
+    }
+
+    .title-box h1 {
+        margin: 0;
+        font-size: 64px;
+        font-weight: 700;
+        line-height: 1.1;
+    }
+
+    .highlight {
+        color: #d36aff;
+    }
+
+    /* Speech bubble */
+    .speech {
+        position: absolute;
+        right: 20%;
+        top: 30%;
+        padding: 10px 18px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 22px;
+        font-size: 16px;
+        backdrop-filter: blur(9px);
+        z-index: 6;
+    }
+
+    /* ====== HERO IMAGE (STATIC + FULL QUALITY) ====== */
+    .left-hero {
+        position: absolute;
+        left: 4%;
+        top: 62%;
+        transform: translateY(-50%);
+        width: 500px;           /* Adjust size as needed */
+        z-index: 4;
+        opacity: 1;             /* full quality */
+        filter: none;           /* no blur, no dim */
+        image-rendering: auto;  /* ensure clear rendering */
+        pointer-events: none;   /* no accidental dragging */
+    }
+
+    .right-hero {
+        position: absolute;
+        right: -10%;
+        top: 62%;
+        transform: translateY(-50%);
+        width: 600px;           /* Adjust size as needed */
+        z-index: 4;
+        opacity: 1;             /* full quality */
+        filter: none;           /* no blur, no dim */
+        image-rendering: auto;  /* ensure clear rendering */
+        pointer-events: none;   /* no accidental dragging */
+    }
+
+    .top-hero{
+
+        position: absolute;
+        right: -15%;
+        top: 7%;
+        transform: translateY(-50%);
+        width: 900px;           /* Adjust size as needed */
+        z-index: 4;
+        opacity: 1;             /* full quality */
+        filter: none;           /* no blur, no dim */
+        image-rendering: auto;  /* ensure clear rendering */
+        pointer-events: none;   /* no accidental dragging */
+
+    }
+
+    <!--
+    .mid-hero{
+        position: absolute;
+        left: 65%;
+        top: 38%;
+        transform: translateY(-50%);
+        width: 500px;           /* Adjust size as needed */
+        z-index: 4;
+        opacity: 1;             /* full quality */
+        filter: none;           /* no blur, no dim */
+        image-rendering: auto;  /* ensure clear rendering */
+        pointer-events: none;   /* no accidental dragging */
+
+    }
+    -->
+
+    
+
+    /* KEEP YOUR FLOATING GIF */
+    .bot {
+        width: 500px;
+        position: absolute;
+        top: 50%;
+        left: 55%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+        filter: drop-shadow(0 0 40px rgba(150, 70, 255, 0.6));
+        animation: float 4s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    @keyframes float {
+        0% { transform: translate(-50%, -50%) translateY(0); }
+        50% { transform: translate(-50%, -50%) translateY(-16px); }
+        100% { transform: translate(-50%, -50%) translateY(0); }
+    }
+
+    /* Button */
+    .start-btn {
+        position: absolute;
+        bottom: 12%;
+        left: 55%;
+        transform: translateX(-50%);
+        padding: 18px 40px;
+        background: linear-gradient(135deg, #822e7e, #871b7b);
+        color: white;
+        border: none;
+        border-radius: 40px;
+        font-size: 22px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 0 35px rgba(185, 70, 255, 0.6);
+        transition: .3s ease;
+        z-index: 5;
+    }
+
+    .start-btn:hover {
+        transform: translateX(-50%) scale(1.05);
+        box-shadow: 0 0 30px rgba(200, 80, 255, 0.95);
+    }
+
+    .title-handshake {
+    position: absolute;
+    top: 17%;          /* adjust vertical position */
+    left: 35%;         /* adjust horizontal position */
+    width: 140px;      /* size of the image */
+    z-index: 10;
+    pointer-events: none;
+    user-select: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Glow background -->
+<div class="glow-bg"></div>
+
+<!-- Title -->
+<div class="title-box">
+    <h1>Meet the<br><span class="highlight">ChatterBot!</span></h1>
+</div>
+
+<img src="/static/hero4.png" class="title-handshake">
+
+<!-- Speech bubble -->
+<div class="speech">Your everyday AI buddy</div>
+
+<!-- NEW STATIC LEFT IMAGE (full clarity, no animation) -->
+<img src="/static/hero1.png" class="left-hero" alt="Left Illustration">
+
+<!-- NEW STATIC RIGHT IMAGE (full clarity, no animation) -->
+<img src="/static/hero3.png" class="right-hero" alt="Right Illustration"> 
+
+<!-- Your floating robot -->
+<img src="/static/GIF.gif" class="bot" alt="Floating bot">
+
+<!-- Your design  -->
+<img src="/static/hero5.png" class="top-hero" alt="Floating bot">
+
+
+<!-- water colour  -->
+<!-- <img src="/static/hero7.png" class="mid-hero" alt="Floating bot"> -->
+
+
+
+
+
+<!-- Start Button -->
+<button class="start-btn" onclick="window.location.href='/chat'">Get Started →</button>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ChatterBot — Chat</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <button class="new-chat-btn" onclick="window.location.href='/new'">+ New Chat</button>
+        <h3 class="sidebar-title">Your Chats</h3>
+      </div>
+
+      <nav class="chat-list" id="chatList">
+        {% for cid, chat in chats.items() %}
+        <div class="chat-item-wrapper">
+          <a class="chat-item {% if current_chat_id == cid %}active{% endif %}"
+             href="javascript:void(0)" onclick="openChat('{{ cid }}')">
+            <div class="chat-item-text">
+              {{ chat.name if chat.name else "New Chat" }}</div>
+          </a>
+
+          <button class="chat-dots" aria-label="menu" onclick="toggleMenu('{{ cid }}', event)">⋯</button>
+
+          <div class="chat-menu" id="menu-{{ cid }}">
+            <button onclick="showRename('{{ cid }}')">Rename</button>
+            <button onclick="deleteChat('{{ cid }}')">Delete</button>
+          </div>
+
+          <form id="rename-{{ cid }}" class="rename-form" action="/rename-chat" method="post">
+            <input type="hidden" name="chat_id" value="{{ cid }}">
+            <input type="text" name="new_name" placeholder="New name">
+            <button type="submit">Save</button>
+            <button type="button" onclick="cancelRename('{{ cid }}')">Cancel</button>
+          </form>
+        </div>
+        {% endfor %}
+      </nav>
+    </aside>
+
+    <!-- MAIN CHAT AREA -->
+    <main class="chat-area">
+
+      <header class="chat-header">
+        <img src="/static/GIF.gif" class="header-bot" alt="ChatterBot">
+        <div class="header-title">
+          <h1>ChatterBot</h1>
+          <p class="subtitle">Your everyday AI Buddy</p>
+        </div>
+      </header>
+
+      <section class="chat-window" id="chatWindow">
+        {% if current_chat and current_chat.messages %}
+          {% for msg in current_chat.messages %}
+            {% if msg.role == 'bot' %}
+              <div class="message bot">
+                <img src="/static/GIF.gif" class="avatar bot-avatar" alt="bot">
+                <div class="bubble" >{{ msg.html | safe }}</div>
+              </div>
+            {% else %}
+              <div class="message user">
+                <div class="bubble user-bubble">{{ msg.html | safe }}</div>
+                <div class="avatar user-avatar"></div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">
+            <img src="/static/hero8.png" class="welcome-bot" alt="bot">
+            <h2>Say hi to ChatterBot</h2>
+            <p>Ask a question or upload a file to get started.</p>
+          </div>
+        {% endif %}
+      </section>
+
+      <form class="input-bar" action="/chatter-bot" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="chat_id" value="{{ current_chat_id }}">
+
+        <label for="fileInput" class="plus-upload" title="Upload file or image">+</label>
+        <input id="fileInput" name="file" type="file" class="file-input" />
+
+        <div id="file-preview" class="file-preview"></div>
+
+        <input type="text" name="prompt" class="prompt-input" placeholder="Send a message..." autocomplete="off" />
+        <button class="send-btn">Send</button>
+      </form>
+
+    </main>
+  </div>
+
+<script>
+
+  function openChat(id) {
+    window.location.replace('/chat?chat_id=' + id);
+  }
+  // Chat menu toggles
+  function toggleMenu(id, ev) {
+    ev.stopPropagation();
+    // close any other open menus
+    document.querySelectorAll('.chat-menu.visible')
+        .forEach(m => m.classList.remove('visible'));
+
+    // toggle selected
+    const menu = document.getElementById('menu-' + id);
+    if (menu) menu.classList.toggle('visible');
+    }   
+
+    /* Close menu when clicking anywhere outside */
+    document.addEventListener("click", () => {
+        document.querySelectorAll('.chat-menu.visible')
+            .forEach(m => m.classList.remove('visible'));
+    });
+
+  function showRename(id) {
+    document.querySelectorAll('.rename-form').forEach(f => f.classList.remove('visible'));
+    document.getElementById('rename-' + id).classList.add('visible');
+    document.querySelectorAll('.chat-menu').forEach(m => m.classList.remove('visible'));
+  }
+
+  function cancelRename(id){
+    document.getElementById('rename-' + id).classList.remove('visible');
+  }
+
+  function deleteChat(id) {
+    window.location.href = "/delete-chat?chat_id=" + id;
+  }
+
+  // Hide menus when clicking outside
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.chat-menu').forEach(m => m.classList.remove('visible'));
+  });
+
+  // File preview logic (kept minimal — only icon shown)
+  document.getElementById('fileInput').addEventListener('change', function(){
+    // must submit form to upload file; visually nothing else to show here
+  });
+
+  // Auto-scroll to bottom
+  window.onload = function(){
+    const cw = document.getElementById('chatWindow');
+    if (cw) cw.scrollTo({ top: cw.scrollHeight, behavior: 'smooth' });
+  };
+
+  document.getElementById('fileInput').addEventListener('change', function(){
+    const preview = document.getElementById('file-preview');
+    preview.innerHTML = ""; // Clear old preview
+
+    if (!this.files || this.files.length === 0) return;
+
+    const file = this.files[0];
+
+    const chip = document.createElement("div");
+    chip.className = "file-chip";
+
+    // Preview
+    if (file.type.startsWith("image/")) {
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        chip.appendChild(img);
+    } else {
+        const icon = document.createElement("span");
+        icon.textContent = "📄";
+        chip.appendChild(icon);
+    }
+
+    const name = document.createElement("span");
+    name.textContent = file.name.length > 18
+        ? file.name.slice(0,15) + "..."
+        : file.name;
+
+    chip.appendChild(name);
+    preview.appendChild(chip);
+});
+</script>
+<script>
+  // FORCE BACK BUTTON → ALWAYS GO TO LANDING PAGE
+  window.addEventListener("popstate", function () {
+      window.location.replace("/welcome");
+  });
+</script>
+</body>
+</html>
