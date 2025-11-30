@@ -181,58 +181,72 @@
 }
 
 /* ======== MOBILE RESPONSIVE FOR LANDING PAGE ======== */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
-    .title-box h1 {
-        font-size: 38px;
+    body {
+        overflow-y: auto;
+        padding: 0;
     }
 
     .title-box {
-        top: 6%;
+        top: 8%;
         left: 5%;
     }
 
+    .title-box h1 {
+        font-size: 42px;
+        line-height: 1.1;
+    }
+
     .speech {
-        right: 8%;
-        top: 22%;
+        right: 5%;
+        top: 18%;
         font-size: 14px;
-        padding: 8px 14px;
+        padding: 6px 14px;
     }
 
-    /* Hero images scale down */
-    .left-hero {
-        width: 260px;
-        top: 65%;
-        left: -6%;
-    }
-
-    .right-hero {
-        width: 300px;
-        right: -20%;
-        top: 68%;
-    }
-
+    /* CENTER HERO IMAGES IN MOBILE */
+    .left-hero,
+    .right-hero,
     .top-hero {
-        width: 450px;
-        right: -30%;
-        top: 12%;
+        position: static;
+        display: block;
+        margin: 0 auto;
+        transform: none;
+        width: 75%;
+        max-width: 380px;
     }
 
+    .left-hero { margin-top: 140px; }
+    .right-hero { margin-top: -40px; }
+    .top-hero { margin-top: -80px; }
+
+    /* FLOATING BOT */
     .bot {
-        width: 250px;
-        top: 60%;
+        width: 300px;
+        position: static;
+        display: block;
+        margin: -50px auto 20px auto;
+        transform: none;
     }
 
+    /* BUTTON CENTERED */
     .start-btn {
-        bottom: 5%;
-        font-size: 18px;
-        padding: 14px 30px;
+        position: static;
+        margin: 30px auto;
+        display: block;
+        transform: none;
+        width: 80%;
+        max-width: 350px;
+        font-size: 20px;
+        padding: 16px 10px;
     }
 
     .title-handshake {
-        width: 90px;
-        top: 10%;
+        width: 80px;
+        top: 13%;
         left: 55%;
+        transform: translateX(-50%);
     }
 }
 </style>
