@@ -387,7 +387,75 @@ body::before {
 
 /* small screens */
 @media (max-width:900px) {
-  .sidebar { display:none; }
-  .chat-area { padding:16px; }
-  .chat-window { max-width:100%; border-radius:10px; padding:18px; }
+  /* Remove sidebar completely on mobile */
+    .sidebar {
+        display: none !important;
+    }
+
+    /* Chat area should take full width */
+    .chat-area {
+        padding: 10px;
+        width: 100%;
+        height: 100vh;
+    }
+
+    /* Chat window */
+    .chat-window {
+        max-width: 100%;
+        width: 100%;
+        border-radius: 12px;
+        padding: 14px;
+        min-height: 50vh;
+    }
+
+    /* Reduce bubble max width */
+    .bubble {
+        max-width: 90% !important;
+        font-size: 14px;
+        padding: 12px 14px;
+    }
+
+    /* Avatar resizing */
+    .bot-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    .user-avatar {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Input bar fixed at bottom */
+    .input-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 0;
+        padding: 10px;
+        background: rgba(10, 4, 30, 0.7);
+        backdrop-filter: blur(8px);
+        z-index: 999;
+    }
+
+    .prompt-input {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .plus-upload {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+    }
+
+    .send-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    /* Fix file preview images */
+    .bubble img {
+        max-width: 180px;
+    }
 }
